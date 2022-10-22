@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <title>Facture</title>
+        <style>
+            @keyframes SpanWidth {
+                from {width: 0%;}
+                to {width: 100%;}
+            }
+            .alert{
+                display: none;
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                min-width: 30%;
+                text-align: center;
+                padding: 4vh 10px;
+                border-radius: 10px;
+            }.alert > div{
+                cursor: pointer;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                width: 30px;
+                height: 30px;
+                border-radius: 10px;
+                transition: 0.3s background-color;
+            }.alert > div:hover{
+                background-color: rgba(0, 0, 0, 0.05);
+            }.alert img{
+                width: 60%;
+            }.alert > .prog{
+                position: absolute;
+                width: 0%;
+                height: 5%;
+                bottom: 0;
+                left: 0;
+                background-color: red;
+                animation-name: SpanWidth;
+                animation-duration: 5s;
+                animation-timing-function: linear;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container p-4">
+            <h1 style="font-family: Trebuchet MS;" class="text-center">Factures</h1>
+            <div>
+                <form class="py-2 mb-4">
+                    <h2 style="font-family: Trebuchet MS;" class="p-2">Informations du client</h2>
+                    Numero du client<input class="form-control w-25" type="text" id="NU_C">
+                    Nom du client<input class="form-control w-25" type="text" id="NO_C" >
+                    Email du client<input class="form-control w-25" type="email" id="email">
+                    Client fidele
+                    <input class="form-check-input mx-1" type="radio" name="client" id="oui" checked>OUI
+                    <input class="form-check-input mx-1" type="radio" name="client" id="non">NON
+                </form>
+            </div>
+            
+            <div>
+                <h3 style="font-family: Trebuchet MS;" class="p-2">Liste des produits</h3>
+                <table class="table text-center">
+                    <tr>
+                        <th>reference</th>
+                        <th>libelle</th>
+                        <th>prix unitaire</th>
+                        <th>Quantite</th>
+                    </tr>
+                    <tr>
+                        <td>P001</td>
+                        <td>Ordinateur Portable</td>
+                        <td>5000</td>
+                        <td><input class="form-control w-50 mx-auto" value="0" min="0" type="number" id="qu1"></td>
+                    </tr>
+                    <tr>
+                        <td>P002</td>
+                        <td>Imprimantes de bureau</td>
+                        <td>6000</td>
+                        <td><input class="form-control w-50 mx-auto" value="0" min="0" type="number" id="qu2"></td>
+                    </tr>
+                    <tr>
+                        <td>P003</td>
+                        <td>Disque dur externe</td>
+                        <td>700</td>
+                        <td><input class="form-control w-50 mx-auto" value="0" min="0" type="number" id="qu3"></td>
+                    </tr>
+                    <tfoot>
+                        <th colspan="3">
+                            <input class="btn btn-outline-dark col-3"  type="button" value="Total" onclick=" calculTotal()">
+                        </th> 
+                        <th id="total">0 DH</th>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="p-2">
+                <h4 style="font-family: Trebuchet MS;">statut du facture</h4>
+                <input class="form-check-input mx-2" type="checkbox" id="fact">Facture payée?
+                <input class="btn btn-success col-2 d-block mx-auto" type="button" onclick="ajouter()" value="Ajouter">
+            </div>
+
+            <table class="table table-striped mt-4" id="table">
+                <tr>
+                    <th>Numero</th>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Fidele ou Non</th>
+                    <th>Prix Total</th>
+                    <th>Facture Payee ou Nom</th>
+                </tr>
+                <tr>
+                    <td>C011</td>
+                    <td>Allali</td>
+                    <td>allali@gmail.com</td>
+                    <td>Oui</td>
+                    <td>10700</td>
+                    <td>payee</td>
+                </tr>
+                <tr>
+                    <td>C2011</td>
+                    <td>Kadiri</td>
+                    <td>kadiri@gmail.com</td>
+                    <td>Oui</td>
+                    <td>1000</td>
+                    <td>Non payee</td>
+                </tr>
+                <tr>
+                    <td>C3299</td>
+                    <td>Mrabti</td>
+                    <td>mrabti@gmail.com</td>
+                    <td>Oui</td>
+                    <td>15000</td>
+                    <td>payee</td>
+                </tr>
+            </table>
+            <div class="d-flex justify-content-end">
+                <input class="btn btn-outline-dark mx-1 col-2" type="button" onclick="nombreFact()" value="Nombre de factures payees">
+                <input class="btn btn-outline-danger mx-1 col-2" type="button" onclick="stylepage()" value="Styliser la page">
+            </div>
+
+            <div class="alert alert-warning" role="alert">
+                <span id="alertText">A simple primary alert—check it out!</span>
+                <div onclick="hideAlert()">
+                    <img src="close.png">
+                </div>
+                <span class="prog"></span>
+            </div>
+
+        </div>
+        <script src="main.js"></script>
+    </body>
+</html>
